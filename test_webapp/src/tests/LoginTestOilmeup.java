@@ -12,9 +12,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.time.Duration;
 
-/** Only works once **/
-
-public class SignUpTestOilmeup {
+public class LoginTestOilmeup {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -30,26 +28,24 @@ public class SignUpTestOilmeup {
   }
 
   @Test
-  public void testSignUpTestOilmeup() throws Exception {
+  public void testLoginTestOilmeup() throws Exception {
 	driver.manage().window().maximize();
+	Thread.sleep(3000);
     driver.get(baseUrl + "chrome://newtab/");
-    driver.get("http://34.27.170.212/signup/");
-    Thread.sleep(2000);
-    driver.findElement(By.id("id_username")).click();
-    driver.findElement(By.id("id_username")).clear();
-    driver.findElement(By.id("id_username")).sendKeys("testuser");
-    Thread.sleep(1000);
-    driver.findElement(By.id("id_budget")).clear();
-    driver.findElement(By.id("id_budget")).sendKeys("10000");
-    Thread.sleep(1000);
-    driver.findElement(By.id("id_password1")).clear();
-    driver.findElement(By.id("id_password1")).sendKeys("ThisisaPassword!");
-    Thread.sleep(1000);
-    driver.findElement(By.id("id_password2")).clear();
-    driver.findElement(By.id("id_password2")).sendKeys("ThisisaPassword!");
-    Thread.sleep(1000);
-    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    driver.get("http://34.27.170.212/login/");
     Thread.sleep(3000);
+    driver.findElement(By.id("id_username")).click();
+    Thread.sleep(1500);
+    driver.findElement(By.id("id_username")).clear();
+    Thread.sleep(1500);
+    driver.findElement(By.id("id_username")).sendKeys("testuser");
+    Thread.sleep(1500);
+    driver.findElement(By.id("id_password")).clear();
+    Thread.sleep(1500);
+    driver.findElement(By.id("id_password")).sendKeys("ThisisaPassword!");
+    Thread.sleep(1500);
+    driver.findElement(By.cssSelector(".login-form")).submit();
+    Thread.sleep(1500);
     driver.get("http://34.27.170.212/catalog/accounts/profile/");
     Thread.sleep(3000);
   }

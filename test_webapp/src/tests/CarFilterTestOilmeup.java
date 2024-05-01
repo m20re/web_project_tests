@@ -12,9 +12,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.time.Duration;
 
-/** Only works once **/
-
-public class SignUpTestOilmeup {
+public class CarFilterTestOilmeup {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -30,27 +28,17 @@ public class SignUpTestOilmeup {
   }
 
   @Test
-  public void testSignUpTestOilmeup() throws Exception {
+  public void testCarFilterTestOilmeup() throws Exception {
 	driver.manage().window().maximize();
     driver.get(baseUrl + "chrome://newtab/");
-    driver.get("http://34.27.170.212/signup/");
-    Thread.sleep(2000);
-    driver.findElement(By.id("id_username")).click();
-    driver.findElement(By.id("id_username")).clear();
-    driver.findElement(By.id("id_username")).sendKeys("testuser");
-    Thread.sleep(1000);
-    driver.findElement(By.id("id_budget")).clear();
-    driver.findElement(By.id("id_budget")).sendKeys("10000");
-    Thread.sleep(1000);
-    driver.findElement(By.id("id_password1")).clear();
-    driver.findElement(By.id("id_password1")).sendKeys("ThisisaPassword!");
-    Thread.sleep(1000);
-    driver.findElement(By.id("id_password2")).clear();
-    driver.findElement(By.id("id_password2")).sendKeys("ThisisaPassword!");
-    Thread.sleep(1000);
-    driver.findElement(By.xpath("//button[@type='submit']")).click();
     Thread.sleep(3000);
-    driver.get("http://34.27.170.212/catalog/accounts/profile/");
+    driver.get("http://34.27.170.212/catalog/car/");
+    Thread.sleep(3000);
+    driver.findElement(By.linkText("Sort by Make")).click();
+    Thread.sleep(3000);
+    driver.findElement(By.linkText("Sort by Price")).click();
+    Thread.sleep(3000);
+    driver.findElement(By.linkText("Sort by Year")).click();
     Thread.sleep(3000);
   }
 
