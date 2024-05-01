@@ -30,21 +30,16 @@ public class CarSearchTestOilmeup {
   @Test
   public void testCarSearchTestOilmeup() throws Exception {
 	driver.manage().window().maximize();
-    driver.get(baseUrl + "chrome://newtab/");
-    Thread.sleep(3000);
     driver.get("http://34.27.170.212/catalog/car/");
+    Thread.sleep(3000);
+    driver.findElement(By.id("color")).click();
+    driver.findElement(By.id("color")).clear();
     Thread.sleep(1500);
-    driver.findElement(By.id("search")).click();
+    driver.findElement(By.id("color")).sendKeys("Silver");
     Thread.sleep(1500);
-    driver.findElement(By.id("search")).clear();
+    driver.findElement(By.xpath("(.//*[normalize-space(text()) and normalize-space(.)='Sign Up'])[1]/following::h1[1]")).click();
     Thread.sleep(1500);
-    driver.findElement(By.id("search")).sendKeys("Honda");
-    Thread.sleep(1500);
-    driver.findElement(By.cssSelector(".row")).submit();
-    Thread.sleep(1500);
-    driver.findElement(By.linkText("View Details")).click();
-    Thread.sleep(1500);
-    driver.findElement(By.linkText("Back to car list")).click();
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
     Thread.sleep(3000);
   }
 
