@@ -32,7 +32,12 @@ public class HomepageOilmeup {
 	driver.manage().window().maximize();
 	Thread.sleep(3000);
     driver.get("http://34.27.170.212/catalog/");
-    Thread.sleep(5000);
+    Thread.sleep(1500);
+    
+    assertTrue("'Welcome to AutoMatch!' should be present",
+    		isElementPresent(By.xpath("//h1[contains(text(), 'Welcome to AutoMatch!')]"), "Welcome to AutoMatch!"));
+    
+    Thread.sleep(1250);
   }
 
   @After
@@ -44,14 +49,17 @@ public class HomepageOilmeup {
     }
   }
 
-  private boolean isElementPresent(By by) {
-    try {
-      driver.findElement(by);
-      return true;
-    } catch (NoSuchElementException e) {
-      return false;
-    }
-  }
+  private boolean isElementPresent(By by, String text) {
+	    try {
+	      WebElement element = driver.findElement(by);
+	      if (text != null) {
+	    	  return element.isDisplayed() && element.getText().contains(text);
+	      }
+	      return element.isDisplayed();
+	    } catch(NoSuchElementException error) {
+	    	return false;
+	    }
+	  }
 
   private boolean isAlertPresent() {
     try {

@@ -30,24 +30,29 @@ public class LoginTestOilmeup {
   @Test
   public void testLoginTestOilmeup() throws Exception {
 	driver.manage().window().maximize();
-	Thread.sleep(3000);
+	Thread.sleep(1500);
     driver.get(baseUrl + "chrome://newtab/");
     driver.get("http://34.27.170.212/login/");
-    Thread.sleep(3000);
+    Thread.sleep(1000);
     driver.findElement(By.id("id_username")).click();
-    Thread.sleep(1500);
+    Thread.sleep(700);
     driver.findElement(By.id("id_username")).clear();
-    Thread.sleep(1500);
-    driver.findElement(By.id("id_username")).sendKeys("testuser");
-    Thread.sleep(1500);
+    Thread.sleep(700);
+    driver.findElement(By.id("id_username")).sendKeys("newPersonfr");
+    Thread.sleep(700);
     driver.findElement(By.id("id_password")).clear();
-    Thread.sleep(1500);
+    Thread.sleep(700);
     driver.findElement(By.id("id_password")).sendKeys("ThisisaPassword!");
-    Thread.sleep(1500);
+    Thread.sleep(700);
     driver.findElement(By.cssSelector(".login-form")).submit();
-    Thread.sleep(1500);
+    Thread.sleep(700);
     driver.get("http://34.27.170.212/catalog/accounts/profile/");
-    Thread.sleep(3000);
+    
+    // checks to see if 'cars within your budget' is there
+    assertTrue("'Cars within your budget' should be present",
+    		isElementPresent(By.xpath("//h2[contains(text(), 'Cars within your budget:')]"), "Cars within your budget:"));
+    
+    Thread.sleep(2000);
   }
 
   @After
@@ -59,14 +64,17 @@ public class LoginTestOilmeup {
     }
   }
 
-  private boolean isElementPresent(By by) {
-    try {
-      driver.findElement(by);
-      return true;
-    } catch (NoSuchElementException e) {
-      return false;
-    }
-  }
+  private boolean isElementPresent(By by, String text) {
+	    try {
+	      WebElement element = driver.findElement(by);
+	      if (text != null) {
+	    	  return element.isDisplayed() && element.getText().contains(text);
+	      }
+	      return element.isDisplayed();
+	    } catch(NoSuchElementException error) {
+	    	return false;
+	    }
+	  }
 
   private boolean isAlertPresent() {
     try {

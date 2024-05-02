@@ -37,21 +37,26 @@ public class SignUpTestOilmeup {
     Thread.sleep(2000);
     driver.findElement(By.id("id_username")).click();
     driver.findElement(By.id("id_username")).clear();
-    driver.findElement(By.id("id_username")).sendKeys("testuser");
-    Thread.sleep(1000);
+    driver.findElement(By.id("id_username")).sendKeys("newPersonfr");
+    Thread.sleep(750);
     driver.findElement(By.id("id_budget")).clear();
     driver.findElement(By.id("id_budget")).sendKeys("10000");
-    Thread.sleep(1000);
+    Thread.sleep(750);
     driver.findElement(By.id("id_password1")).clear();
     driver.findElement(By.id("id_password1")).sendKeys("ThisisaPassword!");
-    Thread.sleep(1000);
+    Thread.sleep(750);
     driver.findElement(By.id("id_password2")).clear();
     driver.findElement(By.id("id_password2")).sendKeys("ThisisaPassword!");
-    Thread.sleep(1000);
+    Thread.sleep(750);
     driver.findElement(By.xpath("//button[@type='submit']")).click();
-    Thread.sleep(3000);
+    Thread.sleep(750);
     driver.get("http://34.27.170.212/catalog/accounts/profile/");
-    Thread.sleep(3000);
+    
+ // Checks if 'Cars within your budget:' is present
+    assertTrue("'Cars within your budget' should be present",
+    		isElementPresent(By.xpath("//h2[contains(text(), 'Cars within your budget:')]"), "Cars within your budget:"));
+    
+    Thread.sleep(1500);
   }
 
   @After
@@ -72,14 +77,17 @@ public class SignUpTestOilmeup {
     }
   }
 
-  private boolean isAlertPresent() {
-    try {
-      driver.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
-  }
+  private boolean isElementPresent(By by, String text) {
+	    try {
+	      WebElement element = driver.findElement(by);
+	      if (text != null) {
+	    	  return element.isDisplayed() && element.getText().contains(text);
+	      }
+	      return element.isDisplayed();
+	    } catch(NoSuchElementException error) {
+	    	return false;
+	    }
+	  }
 
   private String closeAlertAndGetItsText() {
     try {

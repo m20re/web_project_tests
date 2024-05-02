@@ -37,8 +37,12 @@ public class CarDetailViewTestOilmeup {
     Thread.sleep(1500);
     driver.findElement(By.linkText("View Details")).click();
     Thread.sleep(1500);
-    driver.findElement(By.linkText("Back to car list")).click();
-    Thread.sleep(3000);
+    
+ // Checks if 'List of Cars' header is present
+    assertTrue("'Back to car list' button should be present",
+    		isElementPresent(By.xpath("//a[contains(text(), 'Back to car list')]"), "Back to car list"));
+    
+    Thread.sleep(500);
   }
 
   @After
@@ -50,14 +54,17 @@ public class CarDetailViewTestOilmeup {
     }
   }
 
-  private boolean isElementPresent(By by) {
-    try {
-      driver.findElement(by);
-      return true;
-    } catch (NoSuchElementException e) {
-      return false;
-    }
-  }
+  private boolean isElementPresent(By by, String text) {
+	    try {
+	      WebElement element = driver.findElement(by);
+	      if (text != null) {
+	    	  return element.isDisplayed() && element.getText().contains(text);
+	      }
+	      return element.isDisplayed();
+	    } catch(NoSuchElementException error) {
+	    	return false;
+	    }
+	  }
 
   private boolean isAlertPresent() {
     try {

@@ -8,6 +8,7 @@ import static org.hamcrest.CoreMatchers.*;
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.Select;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.time.Duration;
@@ -30,10 +31,15 @@ public class CarCatalogTestOilmeup {
   @Test
   public void testCarCatalogTestOilmeup() throws Exception {
 	driver.manage().window().maximize();
+	Thread.sleep(1500);
     driver.get("http://34.27.170.212/catalog/");
-    Thread.sleep(3000);
+    Thread.sleep(1000);
     driver.findElement(By.linkText("All Cars")).click();
-    Thread.sleep(3000);
+    Thread.sleep(2000);
+    
+    // Checks if 'List of Cars' header is present
+    assertTrue("'List of Cars' header should be present",
+    		isElementPresent(By.xpath("//h1[contains(text(), 'List of Cars')]"), "List of Cars"));
   }
 
   @After
@@ -45,12 +51,15 @@ public class CarCatalogTestOilmeup {
     }
   }
 
-  private boolean isElementPresent(By by) {
+  private boolean isElementPresent(By by, String text) {
     try {
-      driver.findElement(by);
-      return true;
-    } catch (NoSuchElementException e) {
-      return false;
+      WebElement element = driver.findElement(by);
+      if (text != null) {
+    	  return element.isDisplayed() && element.getText().contains(text);
+      }
+      return element.isDisplayed();
+    } catch(NoSuchElementException error) {
+    	return false;
     }
   }
 

@@ -32,6 +32,7 @@ public class CarSearchTestOilmeup {
 	driver.manage().window().maximize();
     driver.get("http://34.27.170.212/catalog/car/");
     Thread.sleep(3000);
+    
     driver.findElement(By.id("color")).click();
     driver.findElement(By.id("color")).clear();
     Thread.sleep(1500);

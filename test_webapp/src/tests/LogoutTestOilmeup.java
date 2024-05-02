@@ -30,17 +30,38 @@ public class LogoutTestOilmeup {
   @Test
   public void testLogoutTestOilmeup() throws Exception {
 	driver.manage().window().maximize();
-    driver.get("http://34.27.170.212/catalog/accounts/profile/");
-    Thread.sleep(3000);
-    driver.findElement(By.linkText("Logout")).click();
-    Thread.sleep(3000);
-    driver.get("http://34.27.170.212/catalog/");
-    Thread.sleep(3000);
-    driver.findElement(By.linkText("Login")).click();
-    Thread.sleep(3000);
+    driver.get(baseUrl + "chrome://newtab/");
     driver.get("http://34.27.170.212/login/");
-    Thread.sleep(3000);
+    Thread.sleep(500);
+    driver.findElement(By.id("id_username")).click();
+    Thread.sleep(500);
+    driver.findElement(By.id("id_username")).clear();
+    Thread.sleep(500);
+    driver.findElement(By.id("id_username")).sendKeys("testuser");
+    Thread.sleep(500);
+    driver.findElement(By.id("id_password")).clear();
+    Thread.sleep(500);
+    driver.findElement(By.id("id_password")).sendKeys("ThisisaPassword!");
+    Thread.sleep(500);
+    driver.findElement(By.cssSelector(".login-form")).submit();
+    Thread.sleep(500);
+    driver.get("http://34.27.170.212/catalog/accounts/profile/");
+    Thread.sleep(500);
+    driver.findElement(By.linkText("Logout")).click();
+    Thread.sleep(500);
+    driver.get("http://34.27.170.212/catalog/");
+    Thread.sleep(500);
+    driver.findElement(By.linkText("Login")).click();
+    driver.get("http://34.27.170.212/login/");
+    Thread.sleep(1000);
+    
+    // Checks whether 'Login to AutoMatch' is present
+    assertTrue("'Login to AutoMatch' should be present",
+    		isElementPresent(By.xpath("//h1[contains(text(), 'Login to AutoMatch')]"), "Login to AutoMatch"));
+    
+    Thread.sleep(1000);
   }
+  
 
   @After
   public void tearDown() throws Exception {
@@ -60,14 +81,17 @@ public class LogoutTestOilmeup {
     }
   }
 
-  private boolean isAlertPresent() {
-    try {
-      driver.switchTo().alert();
-      return true;
-    } catch (NoAlertPresentException e) {
-      return false;
-    }
-  }
+  private boolean isElementPresent(By by, String text) {
+	    try {
+	      WebElement element = driver.findElement(by);
+	      if (text != null) {
+	    	  return element.isDisplayed() && element.getText().contains(text);
+	      }
+	      return element.isDisplayed();
+	    } catch(NoSuchElementException error) {
+	    	return false;
+	    }
+	  }
 
   private String closeAlertAndGetItsText() {
     try {

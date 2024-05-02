@@ -12,7 +12,7 @@ import org.apache.commons.io.FileUtils;
 import java.io.File;
 import java.time.Duration;
 
-public class DuplicateUserTestOilmeup {
+public class CarBudgetChangeTestOilmeup {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -28,34 +28,39 @@ public class DuplicateUserTestOilmeup {
   }
 
   @Test
-  public void testDuplicateUserTestOilmeup() throws Exception {
+  public void testCarBudgetChangeTestOilmeup() throws Exception {
 	driver.manage().window().maximize();
     driver.get("http://34.27.170.212/catalog/");
-    Thread.sleep(1500);
-    driver.findElement(By.linkText("Sign Up")).click();
-    Thread.sleep(1500);
-    driver.get("http://34.27.170.212/signup/");
-    Thread.sleep(700);
+    driver.get("http://34.27.170.212/catalog/");
+    Thread.sleep(500);
+    driver.findElement(By.linkText("Login")).click();
+    driver.get("http://34.27.170.212/login/");
+    Thread.sleep(500);
     driver.findElement(By.id("id_username")).click();
     driver.findElement(By.id("id_username")).clear();
-    driver.findElement(By.id("id_username")).sendKeys("newPersonPerson");
-    Thread.sleep(700);
+    driver.findElement(By.id("id_username")).sendKeys("newPersonPersonPerson");
+    Thread.sleep(500);
+    driver.findElement(By.id("id_password")).click();
+    driver.findElement(By.id("id_password")).clear();
+    driver.findElement(By.id("id_password")).sendKeys("ThisisaPassword!");
+    Thread.sleep(500);
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    Thread.sleep(500);
+    driver.get("http://34.27.170.212/catalog/accounts/profile/");
+    Thread.sleep(500);
+    driver.findElement(By.linkText("Edit Profile")).click();
+    Thread.sleep(500);
+    driver.findElement(By.id("id_budget")).click();
     driver.findElement(By.id("id_budget")).clear();
-    driver.findElement(By.id("id_budget")).sendKeys("1000");
-    Thread.sleep(700);
-    driver.findElement(By.id("id_password1")).clear();
-    driver.findElement(By.id("id_password1")).sendKeys("ThisisaPassword!");
-    Thread.sleep(700);
-    driver.findElement(By.id("id_password2")).clear();
-    driver.findElement(By.id("id_password2")).sendKeys("ThisisaPassword!");
-    Thread.sleep(700);
-    driver.findElement(By.cssSelector(".signup-form")).submit();
+    driver.findElement(By.id("id_budget")).sendKeys("6090.00");
+    Thread.sleep(500);
+    driver.findElement(By.xpath("//button[@type='submit']")).click();
+    
+    // Checks whether the budget actually changed or not
+    assertTrue("'6090.00' should be the new budget",
+    		isElementPresent(By.xpath("//strong[contains(text(), '6090.00')]"), "6090.00"));
+    
     Thread.sleep(1500);
-    
-    // Checks if duplicate user warning is present
-    assertTrue("'This username is already taken.' warning should be present",
-    		isElementPresent(By.xpath("//div[@class='form-group']//div[contains(@class, 'error')][contains(text(), 'username')]"), null));
-    
   }
 
   @After
@@ -69,15 +74,15 @@ public class DuplicateUserTestOilmeup {
 
   private boolean isElementPresent(By by, String text) {
 	    try {
-	        WebElement element = driver.findElement(by);
-	        if (text == null) {
-	            return element.isDisplayed();  // check for presence
-	        }
-	        return element.isDisplayed() && element.getText().contains(text);
-	    } catch (NoSuchElementException e) {
-	        return false;
+	      WebElement element = driver.findElement(by);
+	      if (text != null) {
+	    	  return element.isDisplayed() && element.getText().contains(text);
+	      }
+	      return element.isDisplayed();
+	    } catch(NoSuchElementException error) {
+	    	return false;
 	    }
-	}
+	  }
 
   private boolean isAlertPresent() {
     try {

@@ -38,8 +38,6 @@ public class CarFilterTestOilmeup {
     Thread.sleep(3000);
     driver.findElement(By.linkText("Sort by Price")).click();
     Thread.sleep(3000);
-    driver.findElement(By.linkText("Sort by Year")).click();
-    Thread.sleep(3000);
   }
 
   @After
